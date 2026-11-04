@@ -1,7 +1,7 @@
-from time import timezone
-
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.urls import reverse
+from django.utils import timezone
 
 # Create your models here.
 class AuctionItem(models.Model):
@@ -47,6 +47,9 @@ class AuctionItem(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('lot_detail', kwargs={'pk': self.pk})
+
     @property
     def is_expired(self):
-        return timezone.now > self.end_time
+        return timezone.now() > self.end_time
